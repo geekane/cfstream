@@ -1,0 +1,14 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" },
+    { "path": "./tsconfig.worker.json" }
+  ],
+  "compilerOptions": {
+    "noUnusedLocals": false,
+    "types": [
+        "@cloudflare/workers-types/2023-07-01"
+    ]
+  }
+}
