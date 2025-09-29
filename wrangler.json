@@ -13,7 +13,9 @@
 	"kv_namespaces": [
 	],
 	"vars": {
-		"ENV": "dev"
+		"ENV": "dev",
+                "SUPABASE_URL": "https://ifrmxriqtdpamxyucsbg.supabase.co",
+                "RTC_API_URL": "https://rtc.live.cloudflare.com/v1/apps/301b921e779f641f29a4762e68bf9ec0"
 	},
 	"assets": {
 		"directory": "./dist/client",
