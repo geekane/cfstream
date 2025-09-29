@@ -15,7 +15,7 @@
 	"vars": {
 		"ENV": "dev",
                 "SUPABASE_URL": "https://ifrmxriqtdpamxyucsbg.supabase.co",
-                "RTC_API_URL": "https://rtc.live.cloudflare.com/v1/apps/301b921e779f641f29a4762e68bf9ec0"
+                "RTC_API_URL": "https://rtc.live.cloudflare.com/v1/apps/301b921e779f641f29a4762e68bf9ec0",
 				"SUPABASE_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlmcm14cmlxdGRwYW14eXVjc2JnIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1OTExNDMxOCwiZXhwIjoyMDc0NjkwMzE4fQ.mpDqLmPm9_qYKiOswV_KLSQaOibbiYmKRGUqCRDWrgc"
 	},
 	"assets": {
