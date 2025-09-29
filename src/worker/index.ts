@@ -142,14 +142,36 @@ app.get('/api/signals/:name', async (c) => {
 
 // api create stream room
 app.post('/api/rooms/:name', async (c) => {
-  const name = c.req.param('name')
+  const name = c.req.param('name');
   if (!name?.length || name === 'null' || name === 'undefined') {
-    return c.text('invalid room', 404)
+    return c.json({ error: 'Invalid room name provided.' }, 400);
   }
-  const room = await c.req.json()
-  const ok = await setStreamRoom(c, name, room.sid)
-  return c.json({}, ok ? 200 : 500)
-})
+
+  try {
+    const body = await c.req.json<{ sid?: string }>();
+    const sid = body.sid;
+
+    if (!sid) {
+      return c.json({ error: 'Missing session ID (sid) in request body.' }, 400);
+    }
+
+    // 核心操作：尝试将房间名和sid写入数据库
+    const ok = await setStreamRoom(c, name, sid);
+
+    if (ok) {
+      // 如果成功，返回200 OK
+      return c.json({ success: true }, 200);
+    } else {
+      // 如果 setStreamRoom 返回 false，说明有数据库错误
+      // Supabase 客户端的错误会在 Worker 的日志中自动记录
+      return c.json({ error: 'Failed to write room information to the database.' }, 500);
+    }
+  } catch (e) {
+    // 捕获 c.req.json() 可能出现的解析错误
+    console.error(`[WORKER CRITICAL] Failed to parse JSON for /api/rooms/${name}:`, e);
+    return c.json({ error: 'Invalid request body. Expected JSON.' }, 400);
+  }
+});
 
 // api get room info
 app.get('/api/rooms/:name', async (c) => {
