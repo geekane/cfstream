@@ -144,11 +144,26 @@ app.get('/api/signals/:name', async (c) => {
 app.post('/api/rooms/:name', async (c) => {
   const name = c.req.param('name')
   if (!name?.length || name === 'null' || name === 'undefined') {
-    return c.text('invalid room', 404)
+    return c.json({ error: 'Invalid room name' }, 400)
   }
-  const room = await c.req.json()
-  const ok = await setStreamRoom(c, name, room.sid)
-  return c.json({}, ok ? 200 : 500)
+
+  try {
+    const body = await c.req.json<{ sid: string }>()
+    if (!body || !body.sid) {
+      return c.json({ error: 'Missing session ID in request body' }, 400)
+    }
+
+    // 直接使用从路径中获取的 name 和从请求体中获取的 sid
+    const ok = await setStreamRoom(c, name, body.sid)
+
+    if (ok) {
+      return c.json({ success: true }, 200)
+    } else {
+      return c.json({ error: 'Failed to update room in database' }, 500)
+    }
+  } catch (e) {
+    return c.json({ error: 'Invalid JSON body' }, 400)
+  }
 })
 
 // api get room info
