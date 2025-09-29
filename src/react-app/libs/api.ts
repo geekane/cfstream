@@ -100,11 +100,13 @@ export async function getSessionInfo(sid: string): Promise<SessionStatus> {
 export async function setSessionByName(name: string, sid: string) {
   const res = await fetch(`${ROOM_API}/${name}`, {
     method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
     body: JSON.stringify({ name: name, sid: sid, })
   })
   return res
 }
-
 export async function getSessionByName(name: string): Promise<string> {
   const res = await fetch(`${ROOM_API}/${name}`)
   return res.text()
